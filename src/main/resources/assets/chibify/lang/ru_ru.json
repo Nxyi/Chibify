@@ -1,0 +1,8 @@
+{
+  "chibify.config.title": "Chibify",
+  "chibify.config.category.general": "Основные",
+  "chibify.config.general.self-chibi": "Self-Chibi",
+  "chibify.config.general.self-chibi.description": "Рендерить свою модельку Чиби",
+  "chibify.config.general.accurate_eye_pos": "Точная позиция глаз",
+  "chibify.config.general.accurate_eye_pos.description": "Опустить положение глаз, чтобы позиция была более точной при уменьшении"
+}
