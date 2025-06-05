@@ -1,0 +1,8 @@
+{
+  "chibify.config.title": "Chibify",
+  "chibify.config.category.general": "General",
+  "chibify.config.general.self-chibi": "Self-Chibi",
+  "chibify.config.general.self-chibi.description": "Render yourself as chibi",
+  "chibify.config.general.accurate_eye_pos": "Accurate Eye Pos",
+  "chibify.config.general.accurate_eye_pos.description": "Lower the eye pos to be more accurate when shrunk"
+}
