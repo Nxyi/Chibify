@@ -1,6 +1,7 @@
 package net.chibify.chibify.mixin;
 
 import net.chibify.chibify.mixininterface.IEntityRenderState;
+
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

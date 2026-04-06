@@ -21,9 +21,10 @@
   "mixins": [
     "chibify.mixins.json"
   ],
+  "accessWidener": "chibify.accesswidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "fabric": "*",
+    "fabric-api": "*",
     "minecraft": "${minecraft_version}"
   }
 }

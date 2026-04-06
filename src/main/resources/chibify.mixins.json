@@ -4,10 +4,10 @@
   "package": "net.chibify.chibify.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EntityMixin"
   ],
   "client": [
     "BipedEntityModelMixin",
-    "CameraMixin",
     "ElytraFeatureRendererMixin",
     "EntityRenderDispatcherMixin",
     "EntityRenderStateMixin"

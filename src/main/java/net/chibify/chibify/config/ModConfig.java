@@ -4,24 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class ModConfig {
     public static final Path CONFIG_FILE = Path.of("config").resolve("chibify" + ".json");
 
     public static ModConfig INSTANCE = new ModConfig();
 
+    public boolean enabled = true;
     public boolean shrinkSelf = false;
-    public boolean AccurateEyeHeight = false;
+    public boolean accurateEyeHeight = false;
 
     static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 

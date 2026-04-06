@@ -1,5 +1,6 @@
 package net.chibify.chibify.mixininterface;
 
+
 import net.minecraft.entity.Entity;
 
 public interface IEntityRenderState {

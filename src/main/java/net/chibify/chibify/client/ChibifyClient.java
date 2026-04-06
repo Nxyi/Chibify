@@ -9,4 +9,5 @@ public class ChibifyClient implements ClientModInitializer {
     public void onInitializeClient() {
         ModConfig.load();
     }
+
 }

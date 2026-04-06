@@ -1,6 +1,8 @@
 {
   "chibify.config.title": "Chibify",
   "chibify.config.category.general": "Основные",
+  "chibify.config.general.enabled": "включено",
+  "chibify.config.general.enabled.description": "Включен ли мод или нет",
   "chibify.config.general.self-chibi": "Self-Chibi",
   "chibify.config.general.self-chibi.description": "Рендерить свою модельку Чиби",
   "chibify.config.general.accurate_eye_pos": "Точная позиция глаз",

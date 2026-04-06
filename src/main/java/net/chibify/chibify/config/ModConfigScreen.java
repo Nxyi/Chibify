@@ -1,32 +1,51 @@
 package net.chibify.chibify.config;
 
-import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import me.shedaniel.clothconfig2.api.ConfigCategory;
+
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
 public class ModConfigScreen {
     public static Screen create(Screen parent) {
-        return YetAnotherConfigLib.createBuilder()
-                .title(Text.translatable("chibify.config.title"))
-                .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("chibify.config.category.general"))
-                        .option(Option.<Boolean>createBuilder()
-                                .name(Text.translatable("chibify.config.general.self-chibi"))
-                                .description(OptionDescription.of(Text.translatable("chibify.config.general.self-chibi.description")))
-                                .binding(true, () -> ModConfig.INSTANCE.shrinkSelf, newValue -> ModConfig.INSTANCE.shrinkSelf = newValue)
-                                .controller(BooleanControllerBuilder::create)
-                                .build())
 
-                        .option(Option.<Boolean>createBuilder()
-                                .name(Text.translatable("chibify.config.general.accurate_eye_pos"))
-                                .description(OptionDescription.of(Text.translatable("chibify.config.general.accurate_eye_pos.description")))
-                                .binding(true, () -> ModConfig.INSTANCE.AccurateEyeHeight, newValue -> ModConfig.INSTANCE.AccurateEyeHeight = newValue)
-                                .controller(BooleanControllerBuilder::create)
-                                .build())
-                        .build())
-                .save(ModConfig::save)
-                .build()
-                .generateScreen(parent);
+
+        ConfigBuilder builder = ConfigBuilder.create()
+                .setParentScreen(parent)
+                .setTitle(Text.translatable("chibify.config.title"))
+                        .setSavingRunnable(ModConfig::save); // save on close
+
+        ConfigCategory general = builder.getOrCreateCategory(Text.translatable("chibify.config.category.general"));
+
+        ConfigEntryBuilder entryBuilder = builder.entryBuilder();
+
+        BooleanListEntry enabled = entryBuilder.startBooleanToggle(Text.translatable("chibify.config.general.enabled"), ModConfig.INSTANCE.enabled)
+                .setTooltip(Text.translatable("chibify.config.general.enabled.description"))
+                .setDefaultValue(true)
+                .setSaveConsumer(newValue -> ModConfig.INSTANCE.enabled = newValue)
+                .build();
+        general.addEntry(enabled);
+
+        // Self-Chibi option
+        BooleanListEntry shrinkSelfEntry = entryBuilder.startBooleanToggle(Text.translatable("chibify.config.general.self-chibi"), ModConfig.INSTANCE.shrinkSelf)
+                .setTooltip(Text.translatable("chibify.config.general.self-chibi.description"))
+                .setDefaultValue(true)
+                .setSaveConsumer(newValue -> ModConfig.INSTANCE.shrinkSelf = newValue)
+                .build();
+        general.addEntry(shrinkSelfEntry);
+
+        // Accurate Eye Position option
+        BooleanListEntry accurateEyeEntry = entryBuilder.startBooleanToggle(Text.translatable("chibify.config.general.accurate_eye_pos"), ModConfig.INSTANCE.accurateEyeHeight)
+                .setTooltip(Text.translatable("chibify.config.general.accurate_eye_pos.description"))
+                .setDefaultValue(true)
+                .setSaveConsumer(newValue -> ModConfig.INSTANCE.accurateEyeHeight = newValue)
+                .build();
+        general.addEntry(accurateEyeEntry);
+
+
+
+        return builder.build();
     }
 }

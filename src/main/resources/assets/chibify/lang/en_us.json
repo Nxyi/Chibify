@@ -1,6 +1,9 @@
 {
   "chibify.config.title": "Chibify",
   "chibify.config.category.general": "General",
+  "chibify.config.general.enabled": "enabled",
+  "chibify.config.general.enabled.description": "Whether the mod is enabled or not",
+
   "chibify.config.general.self-chibi": "Self-Chibi",
   "chibify.config.general.self-chibi.description": "Render yourself as chibi",
   "chibify.config.general.accurate_eye_pos": "Accurate Eye Pos",
