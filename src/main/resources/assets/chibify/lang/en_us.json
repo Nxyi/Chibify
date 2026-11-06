@@ -1,11 +1,26 @@
 {
-  "chibify.config.title": "Chibify",
+  "chibify.config.title": "Chibify Configuration",
   "chibify.config.category.general": "General",
-  "chibify.config.general.enabled": "enabled",
+  "chibify.config.general.enabled": "Enabled",
   "chibify.config.general.enabled.description": "Whether the mod is enabled or not",
-
   "chibify.config.general.self-chibi": "Self-Chibi",
   "chibify.config.general.self-chibi.description": "Render yourself as chibi",
   "chibify.config.general.accurate_eye_pos": "Accurate Eye Pos",
-  "chibify.config.general.accurate_eye_pos.description": "Lower the eye pos to be more accurate when shrunk"
+  "chibify.config.general.accurate_eye_pos.description": "Lower the eye pos to be more accurate when shrunk",
+  "chibify.config.general.shrink_hitbox": "Shrink Physical Hitbox",
+  "chibify.config.general.shrink_hitbox.description": "Scale physical collision dimensions (keep OFF on vanilla multiplayer servers)",
+  "chibify.config.scale.player": "Player Scale",
+  "chibify.config.scale.hitbox": "Hitbox & Eye Scale",
+  "chibify.config.scale.head": "Head Scale",
+  "chibify.config.scale.limb_width": "Body & Limb Width",
+  "chibify.config.scale.limb_height": "Body & Limb Height",
+  "chibify.config.elytra.scale": "Elytra Scale",
+  "chibify.config.elytra.offset_y": "Elytra Y Offset",
+  "chibify.config.elytra.offset_z": "Elytra Z Offset",
+  "chibify.config.reset": "Reset Defaults",
+  "key.category.chibify.general": "Chibify",
+  "key.chibify.open_config": "Open Chibify Config",
+  "chibify.config.elytra.leg_clearance": "Elytra Leg Clearance",
+  "chibify.config.inventory.preview_y": "Preview Y Offset",
+  "chibify.config.inventory.preview_y.description": "Fine-tune the vertical position of your Chibi player preview in Survival and Creative inventory screens. Does not affect the player in the world."
 }

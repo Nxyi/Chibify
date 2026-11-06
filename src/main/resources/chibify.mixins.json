@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.chibify.chibify.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "EntityMixin"
   ],
@@ -10,7 +10,9 @@
     "BipedEntityModelMixin",
     "ElytraFeatureRendererMixin",
     "EntityRenderDispatcherMixin",
-    "EntityRenderStateMixin"
+    "EntityRenderStateMixin",
+    "EntityRendererMixin",
+    "InventoryScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
