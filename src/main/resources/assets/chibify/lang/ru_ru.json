@@ -1,10 +1,26 @@
 {
   "chibify.config.title": "Chibify",
   "chibify.config.category.general": "Основные",
-  "chibify.config.general.enabled": "включено",
+  "chibify.config.general.enabled": "Включено",
   "chibify.config.general.enabled.description": "Включен ли мод или нет",
   "chibify.config.general.self-chibi": "Self-Chibi",
   "chibify.config.general.self-chibi.description": "Рендерить свою модельку Чиби",
   "chibify.config.general.accurate_eye_pos": "Точная позиция глаз",
-  "chibify.config.general.accurate_eye_pos.description": "Опустить положение глаз, чтобы позиция была более точной при уменьшении"
+  "chibify.config.general.accurate_eye_pos.description": "Опустить положение глаз, чтобы позиция была более точной при уменьшении",
+  "chibify.config.general.shrink_hitbox": "Уменьшать хитбокс",
+  "chibify.config.general.shrink_hitbox.description": "Масштабировать физический хитбокс игрока",
+  "chibify.config.scale.player": "Общий масштаб",
+  "chibify.config.scale.hitbox": "Масштаб хитбокса и глаз",
+  "chibify.config.scale.head": "Масштаб головы",
+  "chibify.config.scale.limb_width": "Ширина тела и конечностей",
+  "chibify.config.scale.limb_height": "Высота тела и конечностей",
+  "chibify.config.elytra.scale": "Масштаб элитр",
+  "chibify.config.elytra.offset_y": "Смещение элитр Y",
+  "chibify.config.elytra.offset_z": "Смещение элитр Z",
+  "chibify.config.reset": "Сбросить",
+  "key.category.chibify.general": "Chibify",
+  "key.chibify.open_config": "Открыть настройки Chibify",
+  "chibify.config.elytra.leg_clearance": "Зазор элитр над ногами",
+  "chibify.config.inventory.preview_y": "Смещение превью по Y",
+  "chibify.config.inventory.preview_y.description": "Настройка вертикального положения модели игрока в инвентаре Survival и Creative. Не влияет на игрока в мире."
 }

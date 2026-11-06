@@ -1,17 +1,13 @@
 package net.chibify.chibify.mixin;
 
-import net.chibify.chibify.Chibify;
+import net.chibify.chibify.client.ChibifyClient;
 import net.chibify.chibify.config.ModConfig;
 import net.chibify.chibify.mixininterface.IEntityRenderState;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.ModelWithArms;
-import net.minecraft.client.render.entity.model.ModelWithHead;
-import net.minecraft.client.render.entity.state.BipedEntityRenderState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,88 +15,96 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BipedEntityModel.class)
-public abstract class BipedEntityModelMixin<T extends BipedEntityRenderState> extends EntityModel<T> implements ModelWithArms, ModelWithHead {    @Shadow
-    @Final
-    public ModelPart head;
-    @Shadow
-    @Final
-    public ModelPart hat;
-    @Shadow
-    @Final
-    public ModelPart body;
-    @Shadow
-    @Final
-    public ModelPart leftArm;
-    @Shadow
-    @Final
-    public ModelPart rightArm;
-    @Shadow
-    @Final
-    public ModelPart leftLeg;
-    @Shadow
-    @Final
-    public ModelPart rightLeg;
+@Mixin(HumanoidModel.class)
+public abstract class BipedEntityModelMixin<T extends HumanoidRenderState> extends EntityModel<T> {
+    @Shadow @Final public ModelPart head;
+    @Shadow @Final public ModelPart hat;
+    @Shadow @Final public ModelPart body;
+    @Shadow @Final public ModelPart rightArm;
+    @Shadow @Final public ModelPart leftArm;
+    @Shadow @Final public ModelPart rightLeg;
+    @Shadow @Final public ModelPart leftLeg;
 
     protected BipedEntityModelMixin(ModelPart root) {
         super(root);
     }
 
-    @Inject(
-            method = "setAngles(Lnet/minecraft/client/render/entity/state/BipedEntityRenderState;)V",
-            at = {@At("TAIL")}
-    )
-    private void test(T bipedEntityRenderState, CallbackInfo ci) {
-        Entity entity = ((IEntityRenderState) bipedEntityRenderState).chibify$getEntity();
-        if (!ModConfig.INSTANCE.enabled) return;
-
-        if (!(entity instanceof LivingEntity livingEntity) || (entity == Chibify.mc.player && !ModConfig.INSTANCE.shrinkSelf)) return;
-        if (livingEntity instanceof PlayerEntity) {
-            this.head.yScale = 1.0F;
-            this.head.xScale = 1.0F;
-            this.head.zScale = 1.0F;
-            this.head.originY = 12.0F;
-
-            this.rightArm.yScale = 0.5F;
-            this.rightArm.originY = 13.0F;
-            this.rightArm.originX += 1.45f;
-            this.rightArm.zScale = 0.7f;
-            this.rightArm.xScale = 0.7f;
-
-            this.leftArm.yScale = 0.5F;
-            this.leftArm.originY = 13.0F;
-            this.leftArm.zScale = 0.7f;
-            this.leftArm.xScale = 0.7f;
-            this.leftArm.originX -= 1.45f;
-
-            this.leftLeg.yScale = 0.5F;
-            this.leftLeg.originY = 18.0F;
-            this.leftLeg.zScale = 0.7f;
-            this.leftLeg.xScale = 0.7f;
-            this.leftLeg.originX -= 0.55f;
-
-            this.rightLeg.originY = 18.0F;
-            this.rightLeg.yScale = 0.5F;
-            this.rightLeg.zScale = 0.7f;
-            this.rightLeg.xScale = 0.7f;
-            this.rightLeg.originX += 0.55f;
-
-            this.body.originY = 12.0F;
-            this.body.yScale = 0.5f;
-            this.body.zScale = 0.7f;
-            this.body.xScale = 0.7f;
-
-
-            this.hat.originY = 0.0F;
-
-            if (livingEntity.isInSneakingPose()) {
-                this.body.pitch = 0.5F;
-                this.rightLeg.originY -= 1.0f;
-                this.rightLeg.originZ -= 1.5f;
-
-                this.leftLeg.originY -= 1.0f;
-                this.leftLeg.originZ -= 1.5f;
-            }
+    @Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/HumanoidRenderState;)V", at = @At("TAIL"))
+    private void chibify$applyChibiProportions(T state, CallbackInfo ci) {
+        if (!(state instanceof IEntityRenderState duck)) {
+            return;
         }
+        Entity entity = duck.chibify$getEntity();
+        if (!ChibifyClient.shouldChibify(entity)) {
+            return;
+        }
+
+        ModConfig cfg = ModConfig.INSTANCE;
+        float overall = cfg.playerScale;
+        float hScale = cfg.headScale * overall;
+        float wScale = cfg.limbWidthScale * overall;
+        float lHeight = cfg.limbHeightScale * overall;
+
+        // Ground-contact pivot math (Minecraft model ground plane = Y 24.0):
+        // Default lHeight = 0.5 -> legPivotY = 18.0, torsoTopY = 12.0, armPivotY = 13.0.
+        float legPivotY = 24.0F - (12.0F * lHeight);
+        float torsoTopY = legPivotY - (12.0F * lHeight);
+        float armPivotY = torsoTopY + (2.0F * lHeight);
+
+        // Inward X shifts matching Chibify 1.3.1 defaults (wScale=0.7 -> arm +1.45, leg +0.55)
+        float armInwardShift = (1.0F - cfg.limbWidthScale) * (1.45F / 0.3F) * overall;
+        float legInwardShift = (1.0F - cfg.limbWidthScale) * (0.55F / 0.3F) * overall;
+
+        // Head & Hat (hat is a child of head in 1.21.2+ / 26.3, so hat.y = 0.0F stays locked)
+        this.head.xScale = hScale;
+        this.head.yScale = hScale;
+        this.head.zScale = hScale;
+        this.head.y = torsoTopY;
+        this.hat.y = 0.0F;
+
+        // Torso
+        this.body.xScale = wScale;
+        this.body.yScale = lHeight;
+        this.body.zScale = wScale;
+        this.body.y = torsoTopY;
+
+        // Right Arm
+        this.rightArm.xScale = wScale;
+        this.rightArm.yScale = lHeight;
+        this.rightArm.zScale = wScale;
+        this.rightArm.y = armPivotY;
+        this.rightArm.x += armInwardShift;
+
+        // Left Arm
+        this.leftArm.xScale = wScale;
+        this.leftArm.yScale = lHeight;
+        this.leftArm.zScale = wScale;
+        this.leftArm.y = armPivotY;
+        this.leftArm.x -= armInwardShift;
+
+        // Left Leg
+        this.leftLeg.xScale = wScale;
+        this.leftLeg.yScale = lHeight;
+        this.leftLeg.zScale = wScale;
+        this.leftLeg.y = legPivotY;
+        this.leftLeg.x -= legInwardShift;
+
+        // Right Leg
+        this.rightLeg.xScale = wScale;
+        this.rightLeg.yScale = lHeight;
+        this.rightLeg.zScale = wScale;
+        this.rightLeg.y = legPivotY;
+        this.rightLeg.x += legInwardShift;
+
+        // Crouching adjustments matching 1.3.1
+        if (state.isCrouching) {
+            this.body.xRot = 0.5F;
+            this.rightLeg.y -= 1.0F * overall;
+            this.rightLeg.z -= 1.5F * overall;
+            this.leftLeg.y -= 1.0F * overall;
+            this.leftLeg.z -= 1.5F * overall;
+        }
+
+        duck.chibify$setModelScaled(true);
     }
 }

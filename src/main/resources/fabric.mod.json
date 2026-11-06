@@ -3,28 +3,32 @@
   "id": "chibify",
   "version": "${version}",
   "name": "Chibify",
-  "description": "",
-  "authors": [],
+  "description": "Renders players with chibi proportions, adjusted hitboxes, eye height, and aligned elytra.",
+  "authors": [
+    "Chibify Contributors"
+  ],
   "contact": {},
   "license": "All-Rights-Reserved",
   "icon": "assets/icon.png",
   "environment": "client",
   "entrypoints": {
-    "modmenu": ["net.chibify.chibify.config.ModMenuIntegration"],
+    "main": [
+      "net.chibify.chibify.Chibify"
+    ],
     "client": [
       "net.chibify.chibify.client.ChibifyClient"
     ],
-    "main": [
-      "net.chibify.chibify.Chibify"
+    "modmenu": [
+      "net.chibify.chibify.config.ModMenuIntegration"
     ]
   },
   "mixins": [
     "chibify.mixins.json"
   ],
-  "accessWidener": "chibify.accesswidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "~26.3",
+    "java": ">=25"
   }
 }
